@@ -25,6 +25,11 @@ namespace WebsiteManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            RegisterBusinessLogicServices(services);
+            RegisterHelperMethods(services);
+            RegisterRepositories(services);
+            RegisterFactories(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +41,26 @@ namespace WebsiteManager
             }
 
             app.UseMvc();
+        }
+
+        private static void RegisterBusinessLogicServices(IServiceCollection services)
+        {
+            
+        }
+
+        private static void RegisterRepositories(IServiceCollection services)
+        {
+            
+        }
+
+        private static void RegisterFactories(IServiceCollection services)
+        {
+            
+        }
+
+        private static void RegisterHelperMethods(IServiceCollection services)
+        {
+            
         }
     }
 }
