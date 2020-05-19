@@ -1,7 +1,11 @@
-﻿namespace WebsiteManager.Models.Data
+﻿using System;
+
+namespace WebsiteManager.Models.View
 {
-    public class Website : Entity
+    public class WebsiteViewData
     {
+        public Guid Id { get; set; }
+
         public string Name { get; set; }
 
         public string URL { get; set; }
@@ -10,9 +14,7 @@
 
         public string HomepageSnapshot { get; set; }
 
-        public string Email { get; set; }
-
-        public string Password { get; set; }
+        public LoginModel LoginDetails { get; set; }
 
         public bool IsDeleted { get; set; }
 

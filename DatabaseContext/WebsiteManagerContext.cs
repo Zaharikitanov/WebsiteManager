@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WebsiteManager.Models.Data;
 
 namespace WebsiteManager.DatabaseContext
 {
@@ -9,6 +10,6 @@ namespace WebsiteManager.DatabaseContext
 
         }
 
-
+        public DbSet<Website> Websites { get; set; }
     }
 }

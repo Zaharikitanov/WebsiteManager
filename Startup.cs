@@ -1,14 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using WebsiteManager.DatabaseContext;
+using WebsiteManager.Factories;
+using WebsiteManager.Factories.Interfaces;
+using WebsiteManager.Helpers;
+using WebsiteManager.Helpers.Interfaces;
+using WebsiteManager.Repository;
+using WebsiteManager.Repository.Interfaces;
+using WebsiteManager.Services;
+using WebsiteManager.Services.Interfaces;
 
 namespace WebsiteManager
 {
@@ -25,6 +29,8 @@ namespace WebsiteManager
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddDbContext<WebsiteManagerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             RegisterBusinessLogicServices(services);
             RegisterHelperMethods(services);
@@ -45,22 +51,22 @@ namespace WebsiteManager
 
         private static void RegisterBusinessLogicServices(IServiceCollection services)
         {
-            
+            services.AddTransient<IWebsiteService, WebsiteService>(); 
         }
 
         private static void RegisterRepositories(IServiceCollection services)
         {
-            
+            services.AddTransient<IBaseRepository, BaseRepository>();
         }
 
         private static void RegisterFactories(IServiceCollection services)
         {
-            
+            services.AddTransient<IWebsiteFactory, WebsiteFactory>();
         }
 
         private static void RegisterHelperMethods(IServiceCollection services)
         {
-            
+            services.AddTransient<IStringHash, StringHash>();
         }
     }
 }
