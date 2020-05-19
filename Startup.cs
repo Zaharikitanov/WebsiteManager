@@ -56,7 +56,7 @@ namespace WebsiteManager
 
         private static void RegisterRepositories(IServiceCollection services)
         {
-            services.AddTransient<IBaseRepository, BaseRepository>();
+            services.AddTransient<IWebsiteRepository, WebsiteRepository>();
         }
 
         private static void RegisterFactories(IServiceCollection services)

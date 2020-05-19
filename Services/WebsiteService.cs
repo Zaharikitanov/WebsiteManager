@@ -11,11 +11,11 @@ namespace WebsiteManager.Services
 {
     public class WebsiteService : IWebsiteService
     {
-        private IBaseRepository _repository;
+        private IWebsiteRepository _repository;
 
         private IWebsiteFactory _factory;
 
-        public WebsiteService(IBaseRepository repository, IWebsiteFactory factory)
+        public WebsiteService(IWebsiteRepository repository, IWebsiteFactory factory)
         {
             _repository = repository;
             _factory = factory;
