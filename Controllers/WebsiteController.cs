@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using WebsiteManager.Models.Data;
 using WebsiteManager.Models.View;
 using WebsiteManager.Services.Interfaces;
@@ -22,7 +20,7 @@ namespace WebsiteManager.Controllers
         }
 
         [HttpPost]
-        public void Create(WebsiteViewData inputData)
+        public void Create([FromQuery]WebsiteViewData inputData)
         {
             _service.CreateEntityAsync(inputData);
         }
@@ -34,19 +32,19 @@ namespace WebsiteManager.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<Website> GetEntityById(Guid id)
+        public async Task<Website> GetEntityById([FromQuery]Guid id)
         {
             return await _service.GetEntityByIdAsync(id);
         }
 
         [HttpPut]
-        public void Update(WebsiteViewData inputData)
+        public void Update([FromQuery]WebsiteViewData inputData)
         {
             _service.UpdateEntityAsync(inputData);
         }
 
-        [HttpDelete("{id}")]
-        public void Delete(Guid id)
+        [HttpPut("{id}/softdelete")]
+        public void Delete([FromQuery]Guid id)
         {
             _service.SoftDeleteEntityAsync(id);
         }

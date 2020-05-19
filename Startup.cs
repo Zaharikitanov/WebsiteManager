@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using WebsiteManager.DatabaseContext;
 using WebsiteManager.Factories;
 using WebsiteManager.Factories.Interfaces;
@@ -30,6 +31,11 @@ namespace WebsiteManager
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Website Manager", Version = "v1" });
+            });
+
             services.AddDbContext<WebsiteManagerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             RegisterBusinessLogicServices(services);
@@ -47,6 +53,11 @@ namespace WebsiteManager
             }
 
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
         }
 
         private static void RegisterBusinessLogicServices(IServiceCollection services)

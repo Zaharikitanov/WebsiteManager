@@ -21,14 +21,14 @@ namespace WebsiteManager.Services
             _factory = factory;
         }
 
-        public async void CreateEntityAsync(WebsiteViewData viewData)
+        public async Task CreateEntityAsync(WebsiteViewData viewData)
         {
             var newEntity = _factory.Create(viewData);
 
             await _repository.AddAsync(newEntity);
         }
 
-        public async void UpdateEntityAsync(WebsiteViewData viewData)
+        public async Task UpdateEntityAsync(WebsiteViewData viewData)
         {
             var getCurrent = await _repository.GetByIdAsync<Website>(viewData.Id);
 
@@ -53,7 +53,7 @@ namespace WebsiteManager.Services
             return await _repository.ListAsync<Website>();
         }
 
-        public async void SoftDeleteEntityAsync(Guid entityId)
+        public async Task SoftDeleteEntityAsync(Guid entityId)
         {
             var getCurrent = await _repository.GetByIdAsync<Website>(entityId);
 
