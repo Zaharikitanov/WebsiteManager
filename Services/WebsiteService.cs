@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebsiteManager.Factories.Interfaces;
 using WebsiteManager.Models.Data;
+using WebsiteManager.Models.Outcomes;
 using WebsiteManager.Models.View;
 using WebsiteManager.Repository.Interfaces;
 using WebsiteManager.Services.Interfaces;
@@ -28,7 +29,7 @@ namespace WebsiteManager.Services
             await _repository.AddAsync(newEntity);
         }
 
-        public async Task UpdateEntityAsync(WebsiteViewData viewData)
+        public async Task<UpdateEntityOutcome> UpdateEntityAsync(WebsiteViewData viewData)
         {
             var getCurrent = await _repository.GetByIdAsync<Website>(viewData.Id);
 
@@ -40,7 +41,13 @@ namespace WebsiteManager.Services
             getCurrent.Password = viewData.LoginDetails.Password ?? getCurrent.Password;
             getCurrent.EditedAt = DateTime.Now.ToString();
 
-            await _repository.Update(getCurrent);
+            var updateSuccessful = _repository.Update(getCurrent);
+            if (updateSuccessful == null)
+            {
+                return UpdateEntityOutcome.UpdateFailed;
+            }
+
+            return UpdateEntityOutcome.Success;
         }
 
         public async Task<Website> GetEntityByIdAsync(Guid entityId)
@@ -50,16 +57,22 @@ namespace WebsiteManager.Services
 
         public async Task<List<Website>> GetEntitiesListAsync()
         {
-            return await _repository.ListAsync<Website>();
+            return await _repository.GetNotDeletedEntitiesAsync();
         }
 
-        public async Task SoftDeleteEntityAsync(Guid entityId)
+        public async Task<UpdateEntityOutcome> SoftDeleteEntityAsync(Guid entityId)
         {
             var getCurrent = await _repository.GetByIdAsync<Website>(entityId);
 
             getCurrent.IsDeleted = true;
 
-            await _repository.Update(getCurrent);
+            var updateSuccessful = _repository.Update(getCurrent);
+            if (updateSuccessful == null)
+            {
+                return UpdateEntityOutcome.UpdateFailed;
+            }
+
+            return UpdateEntityOutcome.Success;
         }
     }
 }

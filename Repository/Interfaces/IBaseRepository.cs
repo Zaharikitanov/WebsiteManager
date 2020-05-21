@@ -11,6 +11,6 @@ namespace WebsiteManager.Repository.Interfaces
         Task<T> DeleteAsync<T>(T entity) where T : Entity;
         Task<T> GetByIdAsync<T>(Guid id) where T : Entity;
         Task<List<T>> ListAsync<T>() where T : Entity;
-        Task<T> Update<T>(T entity) where T : Entity;
+        T Update<T>(T entity) where T : Entity;
     }
 }

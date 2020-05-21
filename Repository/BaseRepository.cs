@@ -43,10 +43,10 @@ namespace WebsiteManager.Repository
             return entity;
         }
 
-        public virtual async Task<T> Update<T>(T entity) where T : Entity
+        public T Update<T>(T entity) where T : Entity
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
+            _dbContext.SaveChanges();
 
             return entity;
         }

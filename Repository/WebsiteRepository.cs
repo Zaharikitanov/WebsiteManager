@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebsiteManager.DatabaseContext;
-using WebsiteManager.Models.View;
+using WebsiteManager.Models.Data;
 using WebsiteManager.Repository.Interfaces;
 
 namespace WebsiteManager.Repository
@@ -15,16 +15,11 @@ namespace WebsiteManager.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<WebsiteViewData> GetEntityDetailsAsync(Guid entityId)
+        public async Task<List<Website>> GetNotDeletedEntitiesAsync()
         {
-            var entity = await _dbContext.Websites.Where(c => c.Id == entityId)
-                .Select(c => new WebsiteViewData
-                {
-                    Name = c.Name
+            var entities = await _dbContext.Websites.Where(c => c.IsDeleted == false).ToListAsync();
 
-                }).SingleOrDefaultAsync();
-
-            return entity;
+            return entities;
         }
     }
 }

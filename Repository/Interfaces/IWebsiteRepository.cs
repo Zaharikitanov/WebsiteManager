@@ -1,12 +1,11 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebsiteManager.Models.View;
-using WebsiteManager.Repository.Interfaces;
+using WebsiteManager.Models.Data;
 
 namespace WebsiteManager.Repository.Interfaces
 {
     public interface IWebsiteRepository: IBaseRepository
     {
-        Task<WebsiteViewData> GetEntityDetailsAsync(Guid entityId);
+        Task<List<Website>> GetNotDeletedEntitiesAsync();
     }
 }
