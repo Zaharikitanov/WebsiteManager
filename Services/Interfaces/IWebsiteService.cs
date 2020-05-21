@@ -9,7 +9,7 @@ namespace WebsiteManager.Services.Interfaces
 {
     public interface IWebsiteService
     {
-        Task CreateEntityAsync(WebsiteViewData viewData);
+        Task<CreateEntityOutcome> CreateEntityAsync(CreateNewWebsiteData viewData);
         Task<Website> GetEntityByIdAsync(Guid entityId);
         Task<List<Website>> GetEntitiesListAsync();
         Task<UpdateEntityOutcome> SoftDeleteEntityAsync(Guid entityId);

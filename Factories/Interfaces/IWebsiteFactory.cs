@@ -5,6 +5,6 @@ namespace WebsiteManager.Factories.Interfaces
 {
     public interface IWebsiteFactory
     {
-        Website Create(WebsiteViewData viewData);
+        Website Create(CreateNewWebsiteData viewData);
     }
 }

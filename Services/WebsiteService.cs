@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WebsiteManager.Factories.Interfaces;
 using WebsiteManager.Models.Data;
@@ -22,16 +23,27 @@ namespace WebsiteManager.Services
             _factory = factory;
         }
 
-        public async Task CreateEntityAsync(WebsiteViewData viewData)
+        public async Task<CreateEntityOutcome> CreateEntityAsync(CreateNewWebsiteData viewData)
         {
             var newEntity = _factory.Create(viewData);
 
-            await _repository.AddAsync(newEntity);
+            var upsertSuccessful = await _repository.AddAsync(newEntity);
+            if (upsertSuccessful == null)
+            {
+                return CreateEntityOutcome.CreateFailed;
+            }
+
+            return CreateEntityOutcome.Success;
         }
 
         public async Task<UpdateEntityOutcome> UpdateEntityAsync(WebsiteViewData viewData)
         {
             var getCurrent = await _repository.GetByIdAsync<Website>(viewData.Id);
+
+            //var objectProperties = viewData.GetType().GetProperties();
+
+            //bool isNull = objectProperties.Select(x => x.GetValue(viewData, null))
+            //                    .Any(x => x == null);
 
             getCurrent.Name = viewData.Name ?? getCurrent.Name;
             getCurrent.URL = viewData.URL ?? getCurrent.URL;
