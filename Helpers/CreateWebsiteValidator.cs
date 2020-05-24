@@ -3,9 +3,9 @@ using WebsiteManager.Models.View;
 
 namespace WebsiteManager.Helpers
 {
-    public class CreateWebsiteValidator : AbstractValidator<CreateNewWebsiteData>
+    public class AddNewWebsiteValidator : AbstractValidator<CreateNewWebsiteData>
     {
-        public CreateWebsiteValidator()
+        public AddNewWebsiteValidator()
         {
             RuleFor(website => website.Name)
                 .NotEmpty()

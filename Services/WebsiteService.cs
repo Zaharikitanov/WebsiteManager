@@ -1,8 +1,11 @@
-﻿using System;
+﻿using EntityFrameworkPaginateCore;
+using FluentValidation.Results;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebsiteManager.Factories.Interfaces;
+using WebsiteManager.Helpers;
 using WebsiteManager.Models.Data;
 using WebsiteManager.Models.Outcomes;
 using WebsiteManager.Models.View;
@@ -27,6 +30,15 @@ namespace WebsiteManager.Services
         {
             var newEntity = _factory.Create(viewData);
 
+            AddNewWebsiteValidator validator = new AddNewWebsiteValidator();
+
+            ValidationResult result = validator.Validate(viewData);
+
+            if (result.IsValid == false)
+            {
+                return CreateEntityOutcome.MissingFullEntityData;
+            }
+
             var upsertSuccessful = await _repository.AddAsync(newEntity);
             if (upsertSuccessful == null)
             {
@@ -39,12 +51,7 @@ namespace WebsiteManager.Services
         public async Task<UpdateEntityOutcome> UpdateEntityAsync(WebsiteViewData viewData)
         {
             var getCurrent = await _repository.GetByIdAsync<Website>(viewData.Id);
-
-            //var objectProperties = viewData.GetType().GetProperties();
-
-            //bool isNull = objectProperties.Select(x => x.GetValue(viewData, null))
-            //                    .Any(x => x == null);
-
+            
             getCurrent.Name = viewData.Name ?? getCurrent.Name;
             getCurrent.URL = viewData.URL ?? getCurrent.URL;
             getCurrent.Category = viewData.Category ?? getCurrent.Category;
@@ -67,7 +74,12 @@ namespace WebsiteManager.Services
             return await _repository.GetByIdAsync<Website>(entityId);
         }
 
-        public async Task<List<Website>> GetEntitiesListAsync()
+        public async Task<Page<Website>> GetPaginatedEntitiesAsync(int pageSize, int currentPage, string searchText, int sortBy)
+        {
+            return await _repository.GetPaginatedResultsAsync(pageSize, currentPage, searchText, sortBy);
+        }
+
+        public async Task<List<WebsiteViewData>> GetEntitiesListAsync()
         {
             return await _repository.GetNotDeletedEntitiesAsync();
         }

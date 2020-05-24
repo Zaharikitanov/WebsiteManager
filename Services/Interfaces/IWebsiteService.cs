@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EntityFrameworkPaginateCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebsiteManager.Models.Data;
@@ -11,8 +12,10 @@ namespace WebsiteManager.Services.Interfaces
     {
         Task<CreateEntityOutcome> CreateEntityAsync(CreateNewWebsiteData viewData);
         Task<Website> GetEntityByIdAsync(Guid entityId);
-        Task<List<Website>> GetEntitiesListAsync();
+        Task<List<WebsiteViewData>> GetEntitiesListAsync();
         Task<UpdateEntityOutcome> SoftDeleteEntityAsync(Guid entityId);
         Task<UpdateEntityOutcome> UpdateEntityAsync(WebsiteViewData viewData);
+
+        Task<Page<Website>> GetPaginatedEntitiesAsync(int pageSize, int currentPage, string searchText, int sortBy);
     }
 }

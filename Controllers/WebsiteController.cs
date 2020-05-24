@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EntityFrameworkPaginateCore;
+using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using WebsiteManager.Models.Data;
@@ -22,15 +22,30 @@ namespace WebsiteManager.Controllers
         }
 
         [HttpPost]
-        public void Create(WebsiteViewData inputData)
+        public async Task<IActionResult> Create(CreateNewWebsiteData inputData)
         {
-            _service.CreateEntityAsync(inputData);
-        }
+            var createEntityOutcome = await _service.CreateEntityAsync(inputData);
 
+            switch (createEntityOutcome)
+            {
+                case CreateEntityOutcome.Success:
+                    return Ok();
+
+                case CreateEntityOutcome.CreateFailed:
+                    return UnprocessableEntity();
+
+                case CreateEntityOutcome.MissingFullEntityData:
+                    return ValidationProblem();
+
+                default:
+                    return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+        }
+        
         [HttpGet]
-        public async Task<List<Website>> GetAllEntities()
+        public async Task<Page<Website>> GetAllEntities(int pageSize = 10, int currentPage = 1, string searchText = "", int sortBy = 1)
         {
-            return await _service.GetEntitiesListAsync(); 
+            return await _service.GetPaginatedEntitiesAsync(pageSize, currentPage, searchText, sortBy);
         }
 
         [HttpGet("{id}")]
