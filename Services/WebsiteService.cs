@@ -1,7 +1,6 @@
 ﻿using EntityFrameworkPaginateCore;
 using FluentValidation.Results;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebsiteManager.Factories.Interfaces;
 using WebsiteManager.Helpers;
@@ -18,9 +17,7 @@ namespace WebsiteManager.Services
     public class WebsiteService : IWebsiteService
     {
         private IWebsiteRepository _repository;
-
         private IWebsiteFactory _factory;
-
         private IWebsiteDataMapper _mapper;
 
         public WebsiteService(IWebsiteRepository repository, IWebsiteFactory factory, IWebsiteDataMapper mapper)
@@ -82,11 +79,6 @@ namespace WebsiteManager.Services
         public async Task<Page<WebsiteViewData>> GetPaginatedEntitiesAsync(int pageSize, int currentPage, string searchText, SortByOptions sortBy)
         {
             return await _repository.GetPaginatedResultsAsync(pageSize, currentPage, searchText, sortBy);
-        }
-
-        public async Task<List<WebsiteViewData>> GetEntitiesListAsync()
-        {
-            return await _repository.GetNotDeletedEntitiesAsync();
         }
 
         public async Task<UpdateEntityOutcome> SoftDeleteEntityAsync(Guid entityId)
