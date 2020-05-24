@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebsiteManager.Models.Data
+namespace WebsiteManager.Models.Database
 {
     public class Entity
     {

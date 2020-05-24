@@ -10,6 +10,8 @@ using WebsiteManager.Factories;
 using WebsiteManager.Factories.Interfaces;
 using WebsiteManager.Helpers;
 using WebsiteManager.Helpers.Interfaces;
+using WebsiteManager.Mappers;
+using WebsiteManager.Mappers.Interfaces;
 using WebsiteManager.Repository;
 using WebsiteManager.Repository.Interfaces;
 using WebsiteManager.Services;
@@ -78,6 +80,7 @@ namespace WebsiteManager
         private static void RegisterHelperMethods(IServiceCollection services)
         {
             services.AddTransient<IStringHash, StringHash>();
+            services.AddTransient<IWebsiteDataMapper, WebsiteDataMapper>();
         }
     }
 }

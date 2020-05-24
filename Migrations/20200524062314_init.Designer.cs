@@ -10,7 +10,7 @@ using WebsiteManager.DatabaseContext;
 namespace WebsiteManager.Migrations
 {
     [DbContext(typeof(WebsiteManagerContext))]
-    [Migration("20200519194330_init")]
+    [Migration("20200524062314_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,12 +21,12 @@ namespace WebsiteManager.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("WebsiteManager.Models.Data.Website", b =>
+            modelBuilder.Entity("WebsiteManager.Models.Database.Website", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Category");
+                    b.Property<int>("Category");
 
                     b.Property<string>("CreatedAt");
 

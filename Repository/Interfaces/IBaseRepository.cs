@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebsiteManager.Models.Data;
+using WebsiteManager.Models.Database;
 
 namespace WebsiteManager.Repository.Interfaces
 {

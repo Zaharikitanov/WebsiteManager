@@ -2,7 +2,7 @@
 
 namespace WebsiteManager.Models.View
 {
-    public class LoginDetaills
+    public class LoginDetails
     {
         [JsonProperty("email")]
         public string Email { get; set; }

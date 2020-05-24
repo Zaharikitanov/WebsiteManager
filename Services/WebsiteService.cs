@@ -2,11 +2,12 @@
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using WebsiteManager.Factories.Interfaces;
 using WebsiteManager.Helpers;
-using WebsiteManager.Models.Data;
+using WebsiteManager.Mappers.Interfaces;
+using WebsiteManager.Models;
+using WebsiteManager.Models.Database;
 using WebsiteManager.Models.Outcomes;
 using WebsiteManager.Models.View;
 using WebsiteManager.Repository.Interfaces;
@@ -20,10 +21,13 @@ namespace WebsiteManager.Services
 
         private IWebsiteFactory _factory;
 
-        public WebsiteService(IWebsiteRepository repository, IWebsiteFactory factory)
+        private IWebsiteDataMapper _mapper;
+
+        public WebsiteService(IWebsiteRepository repository, IWebsiteFactory factory, IWebsiteDataMapper mapper)
         {
             _repository = repository;
             _factory = factory;
+            _mapper = mapper;
         }
 
         public async Task<CreateEntityOutcome> CreateEntityAsync(CreateNewWebsiteData viewData)
@@ -54,7 +58,7 @@ namespace WebsiteManager.Services
             
             getCurrent.Name = viewData.Name ?? getCurrent.Name;
             getCurrent.URL = viewData.URL ?? getCurrent.URL;
-            getCurrent.Category = viewData.Category ?? getCurrent.Category;
+            getCurrent.Category = viewData.Category != getCurrent.Category ? viewData.Category : getCurrent.Category;
             getCurrent.HomepageSnapshot = viewData.HomepageSnapshot ?? getCurrent.HomepageSnapshot;
             getCurrent.Email = viewData.LoginDetails.Email ?? getCurrent.Email;
             getCurrent.Password = viewData.LoginDetails.Password ?? getCurrent.Password;
@@ -69,12 +73,13 @@ namespace WebsiteManager.Services
             return UpdateEntityOutcome.Success;
         }
 
-        public async Task<Website> GetEntityByIdAsync(Guid entityId)
+        public async Task<WebsiteViewData> GetEntityByIdAsync(Guid entityId)
         {
-            return await _repository.GetByIdAsync<Website>(entityId);
+            var websiteData = await _repository.GetByIdAsync<Website>(entityId);
+            return _mapper.Map(websiteData);
         }
 
-        public async Task<Page<Website>> GetPaginatedEntitiesAsync(int pageSize, int currentPage, string searchText, int sortBy)
+        public async Task<Page<WebsiteViewData>> GetPaginatedEntitiesAsync(int pageSize, int currentPage, string searchText, SortByOptions sortBy)
         {
             return await _repository.GetPaginatedResultsAsync(pageSize, currentPage, searchText, sortBy);
         }

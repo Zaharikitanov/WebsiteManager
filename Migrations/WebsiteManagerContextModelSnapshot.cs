@@ -19,12 +19,12 @@ namespace WebsiteManager.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("WebsiteManager.Models.Data.Website", b =>
+            modelBuilder.Entity("WebsiteManager.Models.Database.Website", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Category");
+                    b.Property<int>("Category");
 
                     b.Property<string>("CreatedAt");
 

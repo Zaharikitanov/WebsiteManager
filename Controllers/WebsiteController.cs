@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using WebsiteManager.Models.Data;
+using WebsiteManager.Models;
 using WebsiteManager.Models.Outcomes;
 using WebsiteManager.Models.View;
 using WebsiteManager.Services.Interfaces;
@@ -43,13 +43,18 @@ namespace WebsiteManager.Controllers
         }
         
         [HttpGet]
-        public async Task<Page<Website>> GetAllEntities(int pageSize = 10, int currentPage = 1, string searchText = "", int sortBy = 1)
+        public async Task<Page<WebsiteViewData>> GetAllEntities(
+            int pageSize = 10, 
+            int currentPage = 1, 
+            string searchText = "", 
+            SortByOptions sortBy = SortByOptions.Name
+            )
         {
             return await _service.GetPaginatedEntitiesAsync(pageSize, currentPage, searchText, sortBy);
         }
 
         [HttpGet("{id}")]
-        public async Task<Website> GetEntityById(Guid id)
+        public async Task<WebsiteViewData> GetEntityById(Guid id)
         {
             return await _service.GetEntityByIdAsync(id);
         }

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebsiteManager.DatabaseContext;
-using WebsiteManager.Models.Data;
+using WebsiteManager.Models.Database;
 using WebsiteManager.Repository.Interfaces;
 
 namespace WebsiteManager.Repository

@@ -1,7 +1,7 @@
 ﻿using System;
 using WebsiteManager.Factories.Interfaces;
 using WebsiteManager.Helpers.Interfaces;
-using WebsiteManager.Models.Data;
+using WebsiteManager.Models.Database;
 using WebsiteManager.Models.View;
 
 namespace WebsiteManager.Factories

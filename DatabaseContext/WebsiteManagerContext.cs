@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebsiteManager.Models.Data;
+using WebsiteManager.Models.Database;
 
 namespace WebsiteManager.DatabaseContext
 {

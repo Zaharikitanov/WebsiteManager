@@ -14,7 +14,7 @@ namespace WebsiteManager.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     URL = table.Column<string>(nullable: true),
-                    Category = table.Column<string>(nullable: true),
+                    Category = table.Column<int>(nullable: false),
                     HomepageSnapshot = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),

@@ -9,33 +9,47 @@ namespace WebsiteManager.Helpers
         {
             RuleFor(website => website.Name)
                 .NotEmpty()
+                .WithMessage("Required")
                 .NotNull()
+                .WithMessage("Required")
                 .MaximumLength(150);
 
             RuleFor(website => website.URL)
                 .NotEmpty()
+                .WithMessage("Required")
                 .NotNull()
-                .Matches(@"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$");
+                .WithMessage("Required")
+                .Matches(@"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$")
+                .WithMessage("Invalid website url format.");
 
             RuleFor(website => website.Category)
-                .NotEmpty()
-                .NotNull()
-                .MaximumLength(150);
+                .IsInEnum()
+                .WithMessage("Required");
 
             RuleFor(website => website.HomepageSnapshot)
                 .NotEmpty()
+                .WithMessage("Required")
                 .NotNull()
+                .WithMessage("Required")
                 .MaximumLength(150);
 
             RuleFor(website => website.LoginDetails.Email)
                 .NotEmpty()
+                .WithMessage("Required")
                 .NotNull()
-                .EmailAddress();
+                .WithMessage("Required")
+                .EmailAddress()
+                .WithMessage("Invalid email format");
 
             RuleFor(website => website.LoginDetails.Password)
                 .NotEmpty()
+                .WithMessage("Required")
                 .NotNull()
-                .MaximumLength(150);
+                .WithMessage("Required")
+                .MinimumLength(4)
+                .WithMessage("Password must be at least 4 characters long.")
+                .MaximumLength(30)
+                .WithMessage("Password cannot be more than 30 characters long");
         }
     }
 }

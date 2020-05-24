@@ -1,7 +1,8 @@
 ﻿using EntityFrameworkPaginateCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebsiteManager.Models.Data;
+using WebsiteManager.Models;
+using WebsiteManager.Models.Database;
 using WebsiteManager.Models.View;
 
 namespace WebsiteManager.Repository.Interfaces
@@ -10,6 +11,6 @@ namespace WebsiteManager.Repository.Interfaces
     {
         Task<List<WebsiteViewData>> GetNotDeletedEntitiesAsync();
 
-        Task<Page<Website>> GetPaginatedResultsAsync(int pageSize, int currentPage, string searchText, int sortBy);
+        Task<Page<WebsiteViewData>> GetPaginatedResultsAsync(int pageSize, int currentPage, string searchText, SortByOptions sortBy);
     }
 }

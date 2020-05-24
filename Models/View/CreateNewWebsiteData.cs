@@ -11,12 +11,12 @@ namespace WebsiteManager.Models.View
         public string URL { get; set; }
 
         [JsonProperty("category")]
-        public string Category { get; set; }
+        public WebsiteCategories Category { get; set; }
 
         [JsonProperty("homepageSnapshot")]
         public string HomepageSnapshot { get; set; }
 
         [JsonProperty("loginDetails")]
-        public LoginDetaills LoginDetails { get; set; }
+        public LoginDetails LoginDetails { get; set; }
     }
 }

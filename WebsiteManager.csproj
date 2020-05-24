@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="EntityFrameworkPaginateCore" Version="1.1.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />

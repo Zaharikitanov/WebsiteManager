@@ -1,4 +1,4 @@
-﻿namespace WebsiteManager.Models.Data
+﻿namespace WebsiteManager.Models.Database
 {
     public class Website : Entity
     {
@@ -6,7 +6,7 @@
 
         public string URL { get; set; }
 
-        public string Category { get; set; }
+        public WebsiteCategories Category { get; set; }
 
         public string HomepageSnapshot { get; set; }
 
