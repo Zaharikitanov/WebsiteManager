@@ -53,7 +53,7 @@ Websites list
 
 ### High Level Overview Of The Architecture
 
-![Alt text](https://github.com/Zaharikitanov/WebsiteManager/blob/master/controller-service-repo.png)
+![Alt text](https://github.com/Zaharikitanov/WebsiteManager/blob/master/Software_Design%20.jpg)
 
 ### Disclaimer
 Unit tests are not covering 100% of the code, they are for showcase on the key areas that need to be covered.
