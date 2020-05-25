@@ -35,3 +35,22 @@ Websites list
  - open Visual Studio and type the following commands into the Package Manager Console:
    - add-migration init
    - update-database
+   
+ ## Project Description
+ 
+ ### Technologies Used
+ - [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/)
+ - [Entity Framework Paginate Core](https://github.com/wdunn001/EntityFrameworkPaginateCore)
+ - [Auto Mapper](https://automapper.org/)
+ - [Fluent Validation](https://fluentvalidation.net/)
+ - [Swashbuckle (Swagger)](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
+ 
+### Design Patterns Applied
+* **Services** - for separation of business logic
+* **Repository** - for data-access logic
+* **Factory** - for enhancing input data and save it to the database
+* **Data mapping** - for populating output data from the database
+
+### High Level Overview Of The Architecture
+
+![Alt text](https://github.com/Zaharikitanov/WebsiteManager/blob/master/controller-service-repo.png)
