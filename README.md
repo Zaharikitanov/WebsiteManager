@@ -5,13 +5,13 @@ Simple CRUD API to manage websites.
 ## Functional Specifications
 
 Fields for create/update which are all required
-* Name
-* URL
+* Name - max length check added
+* URL - format checks added such as: http://test.com
 * Category (Vertical) - predefined list
-* Homepage Snapshot - image
+* Homepage Snapshot - max length check added
 * Login
-  * Email
-  * Password
+  * Email - check added for correct format such as: mail@mail.com
+  * Password - min length check added as well as max length
 
 Website delete
 * It is soft delete
@@ -57,3 +57,9 @@ Websites list
 
 ### Disclaimer
 Unit tests are not covering 100% of the code, they are for showcase on the key areas that need to be covered.
+
+### Assumptions
+- Additional checking can be added for fields max and min length.
+- Validation for email address for matching pattern like: email@mail.com
+- Validation for website url property to be as format: http://test.com
+- Validation for password pattern to have symbols, letters and numbers
