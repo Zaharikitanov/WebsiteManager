@@ -3,7 +3,6 @@
     public enum CreateEntityOutcome
     {
         Success,
-        EntityAlreadyExists,
         MissingFullEntityData,
         CreateFailed
     }

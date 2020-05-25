@@ -3,23 +3,23 @@ using WebsiteManager.Models.View;
 
 namespace WebsiteManager.Helpers
 {
-    public class AddNewWebsiteValidator : AbstractValidator<CreateNewWebsiteData>
+    public class WebsiteInputDataValidator : AbstractValidator<WebsiteInputData>
     {
-        public AddNewWebsiteValidator()
+        public WebsiteInputDataValidator()
         {
             RuleFor(website => website.Name)
                 .NotEmpty()
                 .WithMessage("Required")
                 .NotNull()
                 .WithMessage("Required")
-                .MaximumLength(150);
+                .MaximumLength(90);
 
             RuleFor(website => website.URL)
                 .NotEmpty()
                 .WithMessage("Required")
                 .NotNull()
                 .WithMessage("Required")
-                .Matches(@"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$")
+                .Matches(@"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$")
                 .WithMessage("Invalid website url format.");
 
             RuleFor(website => website.Category)
@@ -31,7 +31,7 @@ namespace WebsiteManager.Helpers
                 .WithMessage("Required")
                 .NotNull()
                 .WithMessage("Required")
-                .MaximumLength(150);
+                .MaximumLength(90);
 
             RuleFor(website => website.LoginDetails.Email)
                 .NotEmpty()

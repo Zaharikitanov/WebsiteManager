@@ -27,11 +27,11 @@ namespace WebsiteManager.Services
             _mapper = mapper;
         }
 
-        public async Task<CreateEntityOutcome> CreateEntityAsync(CreateNewWebsiteData viewData)
+        public async Task<CreateEntityOutcome> CreateEntityAsync(WebsiteInputData viewData)
         {
             var newEntity = _factory.Create(viewData);
 
-            AddNewWebsiteValidator validator = new AddNewWebsiteValidator();
+            WebsiteInputDataValidator validator = new WebsiteInputDataValidator();
 
             ValidationResult result = validator.Validate(viewData);
 
@@ -49,9 +49,9 @@ namespace WebsiteManager.Services
             return CreateEntityOutcome.Success;
         }
 
-        public async Task<UpdateEntityOutcome> UpdateEntityAsync(WebsiteViewData viewData)
+        public async Task<UpdateEntityOutcome> UpdateEntityAsync(WebsiteInputData viewData, Guid id)
         {
-            var getCurrent = await _repository.GetByIdAsync<Website>(viewData.Id);
+            var getCurrent = await _repository.GetByIdAsync<Website>(id);
             
             getCurrent.Name = viewData.Name ?? getCurrent.Name;
             getCurrent.URL = viewData.URL ?? getCurrent.URL;
@@ -61,10 +61,19 @@ namespace WebsiteManager.Services
             getCurrent.Password = viewData.LoginDetails.Password ?? getCurrent.Password;
             getCurrent.EditedAt = DateTime.Now.ToString();
 
+            WebsiteInputDataValidator validator = new WebsiteInputDataValidator();
+
+            ValidationResult result = validator.Validate(viewData);
+
+            if (result.IsValid == false)
+            {
+                return UpdateEntityOutcome.UpdateFailed;
+            }
+
             var updateSuccessful = _repository.Update(getCurrent);
             if (updateSuccessful == null)
             {
-                return UpdateEntityOutcome.UpdateFailed;
+                return UpdateEntityOutcome.EntityNotFound;
             }
 
             return UpdateEntityOutcome.Success;

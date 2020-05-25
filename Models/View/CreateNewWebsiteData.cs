@@ -2,7 +2,7 @@
 
 namespace WebsiteManager.Models.View
 {
-    public class CreateNewWebsiteData
+    public class WebsiteInputData
     {
         [JsonProperty("name")]
         public string Name { get; set; }

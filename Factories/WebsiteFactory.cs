@@ -15,7 +15,7 @@ namespace WebsiteManager.Factories
             _stringHash = stringHash;
         }
 
-        public Website Create(CreateNewWebsiteData viewData)
+        public Website Create(WebsiteInputData viewData)
         {
             return new Website
             {

@@ -22,7 +22,7 @@ namespace WebsiteManager.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateNewWebsiteData inputData)
+        public async Task<StatusCodeResult> Create(WebsiteInputData inputData)
         {
             var createEntityOutcome = await _service.CreateEntityAsync(inputData);
 
@@ -32,10 +32,10 @@ namespace WebsiteManager.Controllers
                     return Ok();
 
                 case CreateEntityOutcome.CreateFailed:
-                    return UnprocessableEntity();
+                    return Conflict();
 
                 case CreateEntityOutcome.MissingFullEntityData:
-                    return ValidationProblem();
+                    return UnprocessableEntity();
 
                 default:
                     return StatusCode((int)HttpStatusCode.InternalServerError);
@@ -59,10 +59,10 @@ namespace WebsiteManager.Controllers
             return await _service.GetEntityByIdAsync(id);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update(WebsiteViewData inputData)
+        [HttpPut("{id}")]
+        public async Task<StatusCodeResult> Update(WebsiteInputData inputData, Guid id)
         {
-            var updateEntityOutcome = await _service.UpdateEntityAsync(inputData);
+            var updateEntityOutcome = await _service.UpdateEntityAsync(inputData, id);
 
             switch (updateEntityOutcome)
             {
@@ -72,13 +72,16 @@ namespace WebsiteManager.Controllers
                 case UpdateEntityOutcome.UpdateFailed:
                     return UnprocessableEntity();
 
+                case UpdateEntityOutcome.EntityNotFound:
+                    return Conflict();
+
                 default:
                     return StatusCode((int)HttpStatusCode.InternalServerError);
             }
         }
 
         [HttpPut("{id}/softdelete")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<StatusCodeResult> Delete(Guid id)
         {
             var updateEntityOutcome = await _service.SoftDeleteEntityAsync(id);
 

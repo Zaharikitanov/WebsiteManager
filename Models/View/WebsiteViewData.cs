@@ -3,7 +3,7 @@ using System;
 
 namespace WebsiteManager.Models.View
 {
-    public class WebsiteViewData : CreateNewWebsiteData
+    public class WebsiteViewData : WebsiteInputData
     {
         [JsonProperty("id")]
         public Guid Id { get; set; }
