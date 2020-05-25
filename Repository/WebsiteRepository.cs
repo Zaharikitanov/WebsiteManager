@@ -1,9 +1,11 @@
 ﻿using EntityFrameworkPaginateCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using WebsiteManager.DatabaseContext;
 using WebsiteManager.Mappers.Interfaces;
 using WebsiteManager.Models;
+using WebsiteManager.Models.Database;
 using WebsiteManager.Models.View;
 using WebsiteManager.Repository.Interfaces;
 
@@ -33,6 +35,12 @@ namespace WebsiteManager.Repository
                 .Where(w => w.IsDeleted == false)
                 .Select(e => _mapper.Map(e))
                 .PaginateAsync(currentPage, pageSize, sorts, filters);
+        }
+
+        public async Task<WebsiteViewData> GetByIdAsync(Guid entityId)
+        {
+            var websiteData = await GetByIdAsync<Website>(entityId);
+            return _mapper.Map(websiteData);
         }
     }
 }

@@ -81,8 +81,7 @@ namespace WebsiteManager.Services
 
         public async Task<WebsiteViewData> GetEntityByIdAsync(Guid entityId)
         {
-            var websiteData = await _repository.GetByIdAsync<Website>(entityId);
-            return _mapper.Map(websiteData);
+            return await _repository.GetByIdAsync(entityId);
         }
 
         public async Task<Page<WebsiteViewData>> GetPaginatedEntitiesAsync(int pageSize, int currentPage, string searchText, SortByOptions sortBy)
