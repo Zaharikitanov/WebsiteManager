@@ -46,10 +46,10 @@ Websites list
  - [Swashbuckle (Swagger)](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
  
 ### Design Patterns Applied
-**Services** - for separation of business logic
-**Repository** - for data-access logic
-**Factory** - for enhancing input data and save it to the database
-**Data mapping** - for populating output data from the database
+* **Services** - for separation of business logic
+* **Repository** - for data-access logic
+* **Factory** - for enhancing input data and save it to the database
+* **Data mapping** - for populating output data from the database
 
 ### High Level Overview Of The Architecture
 
