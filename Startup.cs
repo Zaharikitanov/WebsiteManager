@@ -75,6 +75,7 @@ namespace WebsiteManager
         private static void RegisterFactories(IServiceCollection services)
         {
             services.AddTransient<IWebsiteFactory, WebsiteFactory>();
+            services.AddTransient<IStatusCodeResultFactory, StatusCodeResultFactory>();
         }
 
         private static void RegisterHelperMethods(IServiceCollection services)

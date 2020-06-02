@@ -4,7 +4,6 @@ using System;
 using System.Threading.Tasks;
 using WebsiteManager.Factories.Interfaces;
 using WebsiteManager.Helpers;
-using WebsiteManager.Mappers.Interfaces;
 using WebsiteManager.Models;
 using WebsiteManager.Models.Database;
 using WebsiteManager.Models.Outcomes;
@@ -18,13 +17,11 @@ namespace WebsiteManager.Services
     {
         private IWebsiteRepository _repository;
         private IWebsiteFactory _factory;
-        private IWebsiteDataMapper _mapper;
 
-        public WebsiteService(IWebsiteRepository repository, IWebsiteFactory factory, IWebsiteDataMapper mapper)
+        public WebsiteService(IWebsiteRepository repository, IWebsiteFactory factory)
         {
             _repository = repository;
             _factory = factory;
-            _mapper = mapper;
         }
 
         public async Task<CreateEntityOutcome> CreateEntityAsync(WebsiteInputData viewData)

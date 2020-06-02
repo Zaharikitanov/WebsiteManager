@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using WebsiteManager.Factories.Interfaces;
 using WebsiteManager.Models;
-using WebsiteManager.Models.Outcomes;
 using WebsiteManager.Models.View;
 using WebsiteManager.Services.Interfaces;
 
@@ -15,31 +15,20 @@ namespace WebsiteManager.Controllers
     public class WebsiteController : ControllerBase
     {
         private IWebsiteService _service;
+        private IStatusCodeResultFactory _resultFactory;
 
-        public WebsiteController(IWebsiteService service)
+        public WebsiteController(IWebsiteService service, IStatusCodeResultFactory factory)
         {
             _service = service;
+            _resultFactory = factory;
         }
 
         [HttpPost]
-        public async Task<StatusCodeResult> Create(WebsiteInputData inputData)
+        public async Task<HttpStatusCode> Create(WebsiteInputData inputData)
         {
             var createEntityOutcome = await _service.CreateEntityAsync(inputData);
 
-            switch (createEntityOutcome)
-            {
-                case CreateEntityOutcome.Success:
-                    return Ok();
-
-                case CreateEntityOutcome.CreateFailed:
-                    return Conflict();
-
-                case CreateEntityOutcome.MissingFullEntityData:
-                    return UnprocessableEntity();
-
-                default:
-                    return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
+            return _resultFactory.Create(createEntityOutcome);
         }
         
         [HttpGet]
@@ -60,42 +49,19 @@ namespace WebsiteManager.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<StatusCodeResult> Update(WebsiteInputData inputData, Guid id)
+        public async Task<HttpStatusCode> Update(WebsiteInputData inputData, Guid id)
         {
             var updateEntityOutcome = await _service.UpdateEntityAsync(inputData, id);
 
-            switch (updateEntityOutcome)
-            {
-                case UpdateEntityOutcome.Success:
-                    return Ok();
-
-                case UpdateEntityOutcome.UpdateFailed:
-                    return UnprocessableEntity();
-
-                case UpdateEntityOutcome.EntityNotFound:
-                    return Conflict();
-
-                default:
-                    return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
+            return _resultFactory.Update(updateEntityOutcome);
         }
 
         [HttpPut("{id}/softdelete")]
-        public async Task<StatusCodeResult> Delete(Guid id)
+        public async Task<HttpStatusCode> Delete(Guid id)
         {
             var updateEntityOutcome = await _service.SoftDeleteEntityAsync(id);
 
-            switch (updateEntityOutcome)
-            {
-                case UpdateEntityOutcome.Success:
-                    return Ok();
-
-                case UpdateEntityOutcome.UpdateFailed:
-                    return UnprocessableEntity();
-
-                default:
-                    return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
+            return _resultFactory.Update(updateEntityOutcome);
         }
     }
 }
