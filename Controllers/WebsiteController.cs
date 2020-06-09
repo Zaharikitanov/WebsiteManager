@@ -53,7 +53,7 @@ namespace WebsiteManager.Controllers
         {
             var updateEntityOutcome = await _service.UpdateEntityAsync(inputData, id);
 
-            return _resultFactory.Update(updateEntityOutcome);
+            return _resultFactory.Create(updateEntityOutcome);
         }
 
         [HttpPut("{id}/softdelete")]
@@ -61,7 +61,7 @@ namespace WebsiteManager.Controllers
         {
             var updateEntityOutcome = await _service.SoftDeleteEntityAsync(id);
 
-            return _resultFactory.Update(updateEntityOutcome);
+            return _resultFactory.Create(updateEntityOutcome);
         }
     }
 }

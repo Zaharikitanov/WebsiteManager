@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using WebsiteManager.Models.Outcomes;
+﻿using System.Net;
+using WebsiteManager.Models;
 
 namespace WebsiteManager.Factories.Interfaces
 {
     public interface IStatusCodeResultFactory
     {
-        HttpStatusCode Create(CreateEntityOutcome createEntityOutcome);
-
-        HttpStatusCode Update(UpdateEntityOutcome updateEntityOutcome);
+        HttpStatusCode Create(EntityActionOutcome entityOutcome);
     }
 }

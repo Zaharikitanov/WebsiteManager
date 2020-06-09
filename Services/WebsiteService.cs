@@ -5,7 +5,6 @@ using WebsiteManager.Factories.Interfaces;
 using WebsiteManager.Helpers;
 using WebsiteManager.Models;
 using WebsiteManager.Models.Database;
-using WebsiteManager.Models.Outcomes;
 using WebsiteManager.Models.View;
 using WebsiteManager.Repository.Interfaces;
 using WebsiteManager.Services.Interfaces;
@@ -23,36 +22,36 @@ namespace WebsiteManager.Services
             _factory = factory;
         }
 
-        public async Task<CreateEntityOutcome> CreateEntityAsync(WebsiteInputData viewData)
+        public async Task<EntityActionOutcome> CreateEntityAsync(WebsiteInputData viewData)
         {
             var newEntity = _factory.Create(viewData);
             var validator = new WebsiteInputDataValidator();
             var result = validator.Validate(viewData);
 
             if (result.IsValid == false)
-                return CreateEntityOutcome.MissingFullEntityData;
+                return EntityActionOutcome.MissingFullEntityData;
 
             var upsertSuccessful = await _repository.AddAsync(newEntity);
             if (upsertSuccessful == null)
-                return CreateEntityOutcome.CreateFailed;
+                return EntityActionOutcome.CreateFailed;
 
-            return CreateEntityOutcome.Success;
+            return EntityActionOutcome.Success;
         }
 
-        public async Task<UpdateEntityOutcome> UpdateEntityAsync(WebsiteInputData viewData, Guid id)
+        public async Task<EntityActionOutcome> UpdateEntityAsync(WebsiteInputData viewData, Guid id)
         {
             var getCurrent = await _repository.GetByIdAsync<Website>(id);
             var validator = new WebsiteInputDataValidator();
             var result = validator.Validate(viewData);
 
             if (result.IsValid == false)
-                return UpdateEntityOutcome.UpdateFailed;
+                return EntityActionOutcome.UpdateFailed;
 
             var updateSuccessful = _repository.Update(await PopulateEntityDataWithViewData(viewData, id));
             if (updateSuccessful == null)
-                return UpdateEntityOutcome.EntityNotFound;
+                return EntityActionOutcome.EntityNotFound;
 
-            return UpdateEntityOutcome.Success;
+            return EntityActionOutcome.Success;
         }
 
         public async Task<WebsiteViewData> GetEntityByIdAsync(Guid entityId)
@@ -65,7 +64,7 @@ namespace WebsiteManager.Services
             return await _repository.GetPaginatedResultsAsync(pageSize, currentPage, searchText, sortBy);
         }
 
-        public async Task<UpdateEntityOutcome> SoftDeleteEntityAsync(Guid entityId)
+        public async Task<EntityActionOutcome> SoftDeleteEntityAsync(Guid entityId)
         {
             var getCurrent = await _repository.GetByIdAsync<Website>(entityId);
 
@@ -73,9 +72,9 @@ namespace WebsiteManager.Services
 
             var updateSuccessful = _repository.Update(getCurrent);
             if (updateSuccessful == null)
-                return UpdateEntityOutcome.UpdateFailed;
+                return EntityActionOutcome.UpdateFailed;
 
-            return UpdateEntityOutcome.Success;
+            return EntityActionOutcome.Success;
         }
 
         private async Task<Website> PopulateEntityDataWithViewData(WebsiteInputData viewData, Guid entityId)
