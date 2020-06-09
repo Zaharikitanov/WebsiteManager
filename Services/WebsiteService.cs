@@ -1,5 +1,4 @@
 ﻿using EntityFrameworkPaginateCore;
-using FluentValidation.Results;
 using System;
 using System.Threading.Tasks;
 using WebsiteManager.Factories.Interfaces;
@@ -27,21 +26,15 @@ namespace WebsiteManager.Services
         public async Task<CreateEntityOutcome> CreateEntityAsync(WebsiteInputData viewData)
         {
             var newEntity = _factory.Create(viewData);
-
-            WebsiteInputDataValidator validator = new WebsiteInputDataValidator();
-
-            ValidationResult result = validator.Validate(viewData);
+            var validator = new WebsiteInputDataValidator();
+            var result = validator.Validate(viewData);
 
             if (result.IsValid == false)
-            {
                 return CreateEntityOutcome.MissingFullEntityData;
-            }
 
             var upsertSuccessful = await _repository.AddAsync(newEntity);
             if (upsertSuccessful == null)
-            {
                 return CreateEntityOutcome.CreateFailed;
-            }
 
             return CreateEntityOutcome.Success;
         }
@@ -49,29 +42,15 @@ namespace WebsiteManager.Services
         public async Task<UpdateEntityOutcome> UpdateEntityAsync(WebsiteInputData viewData, Guid id)
         {
             var getCurrent = await _repository.GetByIdAsync<Website>(id);
-            
-            getCurrent.Name = viewData.Name ?? getCurrent.Name;
-            getCurrent.URL = viewData.URL ?? getCurrent.URL;
-            getCurrent.Category = viewData.Category != getCurrent.Category ? viewData.Category : getCurrent.Category;
-            getCurrent.HomepageSnapshot = viewData.HomepageSnapshot ?? getCurrent.HomepageSnapshot;
-            getCurrent.Email = viewData.LoginDetails.Email ?? getCurrent.Email;
-            getCurrent.Password = viewData.LoginDetails.Password ?? getCurrent.Password;
-            getCurrent.EditedAt = DateTime.Now.ToString();
-
-            WebsiteInputDataValidator validator = new WebsiteInputDataValidator();
-
-            ValidationResult result = validator.Validate(viewData);
+            var validator = new WebsiteInputDataValidator();
+            var result = validator.Validate(viewData);
 
             if (result.IsValid == false)
-            {
                 return UpdateEntityOutcome.UpdateFailed;
-            }
 
-            var updateSuccessful = _repository.Update(getCurrent);
+            var updateSuccessful = _repository.Update(await PopulateEntityDataWithViewData(viewData, id));
             if (updateSuccessful == null)
-            {
                 return UpdateEntityOutcome.EntityNotFound;
-            }
 
             return UpdateEntityOutcome.Success;
         }
@@ -94,11 +73,24 @@ namespace WebsiteManager.Services
 
             var updateSuccessful = _repository.Update(getCurrent);
             if (updateSuccessful == null)
-            {
                 return UpdateEntityOutcome.UpdateFailed;
-            }
 
             return UpdateEntityOutcome.Success;
+        }
+
+        private async Task<Website> PopulateEntityDataWithViewData(WebsiteInputData viewData, Guid entityId)
+        {
+            var getCurrent = await _repository.GetByIdAsync<Website>(entityId);
+
+            getCurrent.Name = viewData.Name ?? getCurrent.Name;
+            getCurrent.URL = viewData.URL ?? getCurrent.URL;
+            getCurrent.Category = viewData.Category != getCurrent.Category ? viewData.Category : getCurrent.Category;
+            getCurrent.HomepageSnapshot = viewData.HomepageSnapshot ?? getCurrent.HomepageSnapshot;
+            getCurrent.Email = viewData.LoginDetails.Email ?? getCurrent.Email;
+            getCurrent.Password = viewData.LoginDetails.Password ?? getCurrent.Password;
+            getCurrent.EditedAt = DateTime.Now.ToString();
+
+            return getCurrent;
         }
     }
 }
