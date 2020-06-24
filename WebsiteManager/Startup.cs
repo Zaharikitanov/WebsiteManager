@@ -64,24 +64,24 @@ namespace WebsiteManager
 
         private static void RegisterBusinessLogicServices(IServiceCollection services)
         {
-            services.AddTransient<IWebsiteService, WebsiteService>(); 
+            services.AddSingleton<IWebsiteService, WebsiteService>(); 
         }
 
         private static void RegisterRepositories(IServiceCollection services)
         {
-            services.AddTransient<IWebsiteRepository, WebsiteRepository>();
+            services.AddScoped<IWebsiteRepository, WebsiteRepository>();
         }
 
         private static void RegisterFactories(IServiceCollection services)
         {
-            services.AddTransient<IWebsiteFactory, WebsiteFactory>();
-            services.AddTransient<IStatusCodeResultFactory, StatusCodeResultFactory>();
+            services.AddSingleton<IWebsiteFactory, WebsiteFactory>();
+            services.AddSingleton<IStatusCodeResultFactory, StatusCodeResultFactory>();
         }
 
         private static void RegisterHelperMethods(IServiceCollection services)
         {
-            services.AddTransient<IStringHash, StringHash>();
-            services.AddTransient<IWebsiteDataMapper, WebsiteDataMapper>();
+            services.AddSingleton<IStringHash, StringHash>();
+            services.AddSingleton<IWebsiteDataMapper, WebsiteDataMapper>();
         }
     }
 }
